@@ -1,32 +1,55 @@
 package com.example.timetracking.timekeeping
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.core.view.MenuProvider
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.timetracking.R
+import com.example.timetracking.databinding.FragmentTimeTrackingBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class TimeTrackingFragment : Fragment() {
+const val TAG = "TimeTrackingFragment"
+@AndroidEntryPoint
+class TimeTrackingFragment : Fragment(), MenuProvider {
+    private lateinit var binding: FragmentTimeTrackingBinding
 
-    companion object {
-        fun newInstance() = TimeTrackingFragment()
-    }
+    private val viewModel by viewModels<TimeTrackingViewModel>()
+    private val args: TimeTrackingFragmentArgs by navArgs()
 
-    private lateinit var viewModel: TimeTrackingViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_time_tracking, container, false)
+    ): View {
+        args.employeeArgument?.let {
+            viewModel.setEmployeeData(it)
+        }
+
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+        binding = FragmentTimeTrackingBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(TimeTrackingViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.menu_main, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.nav_logout -> {
+                findNavController().popBackStack(R.id.loginFragment, false)
+                true
+            }
+            else -> {
+                false
+            }
+        }
     }
 
 }
