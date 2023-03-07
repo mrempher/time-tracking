@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -73,7 +75,7 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$hilt"
 
     //navigation
-    implementation "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation"
+    //implementation "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
 
