@@ -64,7 +64,23 @@ class LoginFragment : Fragment() {
                     LENGTH_SHORT
                 ).show()
             }
+            !isPassMatch -> {
+                Toast.makeText(
+                    requireContext(),
+                    "Password is incorrect, please try again.",
+                    LENGTH_SHORT
+                ).show()
+            }
+            !isNameMatch -> {
+                Toast.makeText(
+                    requireContext(),
+                    "User Name is incorrect, please try again.",
+                    LENGTH_SHORT
+                ).show()
+            }
             isNameMatch && isPassMatch -> {
+                binding.userName.text?.clear()
+                binding.password.text?.clear()
                 val action =
                     LoginFragmentDirections
                         .actionLoginFragmentToTimeTrackingFragment(viewModel.employee.value)
