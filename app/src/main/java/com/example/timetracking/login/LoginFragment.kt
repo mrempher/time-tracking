@@ -1,25 +1,22 @@
 package com.example.timetracking.login
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.timetracking.databinding.FragmentLoginBinding
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.AndroidEntryPoint
 
 const val TAG = "LoginFragment"
-
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
-
     private lateinit var binding: FragmentLoginBinding
-    private lateinit var database: FirebaseDatabase
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,31 +24,30 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
-
-        database = Firebase.database
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val myRef = database.getReference("message")
-        myRef.setValue("Hello, World!")
+        binding.userName.addTextChangedListener {
+            viewModel.setInputUserName(it.toString())
+        }
 
-        // Read from the database
-        myRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                val value = dataSnapshot.value
-                Log.d(TAG, "Value is: $value")
-            }
+        binding.password.addTextChangedListener {
+            viewModel.setInputPassword(it.toString())
+        }
 
-            override fun onCancelled(error: DatabaseError) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException())
+        binding.loginButton.setOnClickListener {
+            viewModel.getEmployeeByUserName()
+            when {
+                binding.userName.text.isNullOrEmpty() || binding.password.text.isNullOrEmpty() -> {
+                    Toast.makeText(requireContext(), "Please enter a UserName and Password", LENGTH_SHORT).show()
+                }
+                viewModel.employee.value == null -> {
+                    Toast.makeText(requireContext(), "No Matching User found, please try again.", LENGTH_SHORT).show()
+                }
             }
-        })
+        }
     }
-
 }
