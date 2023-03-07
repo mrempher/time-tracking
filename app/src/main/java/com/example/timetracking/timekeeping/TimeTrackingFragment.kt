@@ -1,10 +1,12 @@
 package com.example.timetracking.timekeeping
 
+import android.app.AlertDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -50,40 +52,8 @@ class TimeTrackingFragment : Fragment() {
 
         binding.timeFab.shrink()
         binding.timeFab.setOnClickListener { handleFabVisibility() }
-
-        binding.startTimeFab.setOnClickListener {
-            val timePicker: TimePickerDialog
-            val currentTime = Calendar.getInstance()
-
-            timePicker = TimePickerDialog(
-                requireContext(), { view, hourOfDay, minute ->
-                    binding.startTimeText.setText(
-                        String.format("%d : %d", hourOfDay, minute)
-                    )
-                },
-                currentTime.get(Calendar.HOUR_OF_DAY),
-                currentTime.get(Calendar.MINUTE),
-                false
-            )
-            timePicker.show()
-        }
-
-        binding.endTimeFab.setOnClickListener {
-            val timePicker: TimePickerDialog
-            val currentTime = Calendar.getInstance()
-
-            timePicker = TimePickerDialog(
-                requireContext(), { view, hourOfDay, minute ->
-                    binding.endTimeText.setText(
-                        String.format("%d : %d", hourOfDay, minute)
-                    )
-                },
-                currentTime.get(Calendar.HOUR_OF_DAY),
-                currentTime.get(Calendar.MINUTE),
-                false
-            )
-            timePicker.show()
-        }
+        binding.startTimeFab.setOnClickListener { handleStartTimeFabClick() }
+        binding.endTimeFab.setOnClickListener { handleEndTimeFabClick() }
 
         return binding.root
     }
@@ -106,6 +76,52 @@ class TimeTrackingFragment : Fragment() {
 
             binding.timeFab.shrink()
             isAllFabsVisible = false
+        }
+    }
+
+    private fun handleStartTimeFabClick() {
+        if (binding.startTimeText.text.isNullOrEmpty()) {
+            val timePicker: TimePickerDialog
+            val currentTime = Calendar.getInstance()
+
+            timePicker = TimePickerDialog(
+                requireContext(), { view, hourOfDay, minute ->
+                    binding.startTimeText.setText(String.format("%d : %d", hourOfDay, minute))
+                },
+                currentTime.get(Calendar.HOUR_OF_DAY),
+                currentTime.get(Calendar.MINUTE),
+                false
+            )
+            timePicker.show()
+        } else {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Time Session already started")
+            builder.setMessage("The start time has already been set, please finalize or clear sessions")
+            builder.setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            builder.show()
+        }
+    }
+
+    private fun handleEndTimeFabClick() {
+        if (!binding.startTimeText.text.isNullOrEmpty() && binding.endTimeText.text.isNullOrEmpty()) {
+            val timePicker: TimePickerDialog
+            val currentTime = Calendar.getInstance()
+
+            timePicker = TimePickerDialog(
+                requireContext(), { view, hourOfDay, minute ->
+                    binding.endTimeText.setText(String.format("%d : %d", hourOfDay, minute))
+                },
+                currentTime.get(Calendar.HOUR_OF_DAY),
+                currentTime.get(Calendar.MINUTE),
+                false
+            )
+            timePicker.show()
+        } else {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Time Session already started")
+            builder.setMessage("The start time has not been set, please finalize or clear sessions")
+            builder.setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            builder.show()
         }
     }
 }
