@@ -1,5 +1,6 @@
 package com.example.timetracking.timekeeping
 
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,10 @@ import androidx.navigation.fragment.navArgs
 import com.example.timetracking.R
 import com.example.timetracking.databinding.FragmentTimeTrackingBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 const val TAG = "TimeTrackingFragment"
+
 @AndroidEntryPoint
 class TimeTrackingFragment : Fragment() {
     private lateinit var binding: FragmentTimeTrackingBinding
@@ -24,9 +27,7 @@ class TimeTrackingFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentTimeTrackingBinding.inflate(inflater, container, false)
 
@@ -41,16 +42,48 @@ class TimeTrackingFragment : Fragment() {
                     findNavController().popBackStack(R.id.loginFragment, false)
                     true
                 }
-                else -> { false }
+                else -> {
+                    false
+                }
             }
         }
 
         binding.timeFab.shrink()
-
         binding.timeFab.setOnClickListener { handleFabVisibility() }
 
+        binding.startTimeFab.setOnClickListener {
+            val timePicker: TimePickerDialog
+            val currentTime = Calendar.getInstance()
 
+            timePicker = TimePickerDialog(
+                requireContext(), { view, hourOfDay, minute ->
+                    binding.startTimeText.setText(
+                        String.format("%d : %d", hourOfDay, minute)
+                    )
+                },
+                currentTime.get(Calendar.HOUR_OF_DAY),
+                currentTime.get(Calendar.MINUTE),
+                false
+            )
+            timePicker.show()
+        }
 
+        binding.endTimeFab.setOnClickListener {
+            val timePicker: TimePickerDialog
+            val currentTime = Calendar.getInstance()
+
+            timePicker = TimePickerDialog(
+                requireContext(), { view, hourOfDay, minute ->
+                    binding.endTimeText.setText(
+                        String.format("%d : %d", hourOfDay, minute)
+                    )
+                },
+                currentTime.get(Calendar.HOUR_OF_DAY),
+                currentTime.get(Calendar.MINUTE),
+                false
+            )
+            timePicker.show()
+        }
 
         return binding.root
     }
