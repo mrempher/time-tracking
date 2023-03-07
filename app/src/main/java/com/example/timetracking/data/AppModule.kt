@@ -2,6 +2,7 @@ package com.example.timetracking.data
 
 import android.content.Context
 import androidx.room.Room
+import com.example.timetracking.data.dao.EmployeeDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,18 +13,18 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
-     @Singleton
     @Provides
-    fun provideDataBase(
-        @ApplicationContext app: Context
-    ) = Room.databaseBuilder(
-        app,
-        AppDatabase::class.java,
-        "app_database"
-    ).build()
+    fun provideEmployeeDao(appDatabase: AppDatabase): EmployeeDao {
+        return appDatabase.employeeDao()
+    }
 
+    @Provides
     @Singleton
-    @Provides
-    fun provideEmployeeDao(db: AppDatabase) = db.employeeDao()
+    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
+        return Room.databaseBuilder(
+            appContext,
+            AppDatabase::class.java,
+            "app_database"
+        ).build()
+    }
 }

@@ -15,9 +15,9 @@ class EmployeeRepository @Inject constructor(
         return employeeDao.getAllEmployees()
     }
 
-    suspend fun insertEmployees(employee: List<Employee>) {
+    suspend fun insertEmployees(employees: List<Employee>) {
         return withContext(Dispatchers.IO) {
-            employeeDao.insertEmployees(employee)
+            employeeDao.insertEmployees(employees)
         }
     }
 

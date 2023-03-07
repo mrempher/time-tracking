@@ -19,9 +19,17 @@ class LoginViewModel @Inject constructor(
     private var _employee: Flow<Employee?> = MutableStateFlow(null)
     var employee = _employee.asLiveData()
 
-    val inputUsername = MutableStateFlow("")
+    private var _employeeList: Flow<List<Employee>> = MutableStateFlow(listOf())
+    var employeeList = _employeeList.asLiveData()
 
+    val inputUsername = MutableStateFlow("")
     val inputPassword = MutableStateFlow("")
+
+    init {
+        viewModelScope.launch {
+            _employeeList = employeeRepository.getAllEmployees()
+        }
+    }
 
     fun getEmployeeByUserName() =
         viewModelScope.launch {
