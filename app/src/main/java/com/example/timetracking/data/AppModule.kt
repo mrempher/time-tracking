@@ -3,6 +3,7 @@ package com.example.timetracking.data
 import android.content.Context
 import androidx.room.Room
 import com.example.timetracking.data.dao.EmployeeDao
+import com.example.timetracking.data.dao.TimeSessionDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +20,11 @@ object AppModule {
     }
 
     @Provides
+    fun provideTimeSessionDao(appDatabase: AppDatabase): TimeSessionDao {
+        return appDatabase.timeSessionDao()
+    }
+
+    @Provides
     @Singleton
     fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
         return Room.databaseBuilder(
@@ -27,4 +33,6 @@ object AppModule {
             "app_database"
         ).build()
     }
+
+
 }

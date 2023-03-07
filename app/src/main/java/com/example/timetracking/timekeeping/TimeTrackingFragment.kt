@@ -49,7 +49,11 @@ class TimeTrackingFragment : Fragment() {
                     true
                 }
                 R.id.action_save_session -> {
-
+                    viewModel.saveTimeSession(
+                        binding.startTimeText.text.toString(),
+                        binding.endTimeText.text.toString()
+                    )
+                    findNavController().popBackStack(R.id.loginFragment, false)
                     true
                 }
                 else -> false
