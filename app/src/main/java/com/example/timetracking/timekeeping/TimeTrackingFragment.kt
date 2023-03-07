@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -27,7 +26,6 @@ class TimeTrackingFragment : Fragment() {
 
     private var isAllFabsVisible: Boolean = false
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -38,22 +36,29 @@ class TimeTrackingFragment : Fragment() {
         }
 
         binding.toolbar.inflateMenu(R.menu.menu_main)
+
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.nav_logout -> {
+                R.id.action_logout -> {
                     findNavController().popBackStack(R.id.loginFragment, false)
                     true
                 }
-                else -> {
-                    false
+                R.id.action_clear_session -> {
+                    binding.startTimeText.text?.clear()
+                    binding.endTimeText.text?.clear()
+                    true
                 }
+                R.id.action_save_session -> {
+
+                    true
+                }
+                else -> false
             }
         }
-
-        binding.timeFab.shrink()
         binding.timeFab.setOnClickListener { handleFabVisibility() }
         binding.startTimeFab.setOnClickListener { handleStartTimeFabClick() }
         binding.endTimeFab.setOnClickListener { handleEndTimeFabClick() }
+
 
         return binding.root
     }
@@ -65,8 +70,6 @@ class TimeTrackingFragment : Fragment() {
             binding.endTimeFab.visibility = View.VISIBLE
             binding.endTimeFabText.visibility = View.VISIBLE
 
-            binding.timeFab.extend()
-
             isAllFabsVisible = true
         } else {
             binding.startTimeFab.visibility = View.GONE
@@ -74,7 +77,6 @@ class TimeTrackingFragment : Fragment() {
             binding.endTimeFab.visibility = View.GONE
             binding.endTimeFabText.visibility = View.GONE
 
-            binding.timeFab.shrink()
             isAllFabsVisible = false
         }
     }
