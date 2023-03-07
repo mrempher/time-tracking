@@ -11,12 +11,14 @@ const val TAG = "MainActivity"
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel by viewModels<MainViewModel>()
+   private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+
         viewModel.insertDBData()
+
         if (savedInstanceState == null) {
             val fragment = LoginFragment()
             supportFragmentManager.beginTransaction()
