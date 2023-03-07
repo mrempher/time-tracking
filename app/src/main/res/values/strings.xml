@@ -1,13 +1,21 @@
 <resources>
     <string name="app_name">Time Tracking</string>
-    <string name="action_settings">Settings</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+
+    <!-- Login Fragment -->
     <string name="password_text">password</string>
     <string name="username_text">user name</string>
     <string name="login_button_text">Login</string>
     <string name="login_screen_text">TIME TRACKING APP</string>
+
+    <!--menu items -->
+    <string name="action_logout">Logout</string>
+
+    <!-- nav menu -->
+
 </resources>
