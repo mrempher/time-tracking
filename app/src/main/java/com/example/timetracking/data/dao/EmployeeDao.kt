@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.timetracking.data.entity.Employee
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @Dao
 interface EmployeeDao {
@@ -16,8 +17,8 @@ interface EmployeeDao {
     fun getEmployee(id: String): Flow<Employee>
 
     @Query("SELECT * FROM employee WHERE login_name = :userName")
-    fun getEmployeeByUserName(userName: String): Flow<Employee>
+    fun getEmployeeByUserName(userName: String): Employee
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertEmployees(employee: List<Employee>)
+    suspend fun insertEmployees(employees: List<Employee>)
 }

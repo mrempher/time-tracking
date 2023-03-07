@@ -1,6 +1,7 @@
 package com.example.timetracking.login
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.example.timetracking.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 const val TAG = "LoginFragment"
+
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
@@ -30,23 +32,40 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.userName.addTextChangedListener {
-            viewModel.setInputUserName(it.toString())
-        }
-
-        binding.password.addTextChangedListener {
-            viewModel.setInputPassword(it.toString())
-        }
+        binding.userName.addTextChangedListener { viewModel.setInputUserName(it.toString()) }
+        binding.password.addTextChangedListener { viewModel.setInputPassword(it.toString()) }
 
         binding.loginButton.setOnClickListener {
+            //TODO add some sort of spinner while checking userData for login
             viewModel.getEmployeeByUserName()
-            when {
-                binding.userName.text.isNullOrEmpty() || binding.password.text.isNullOrEmpty() -> {
-                    Toast.makeText(requireContext(), "Please enter a UserName and Password", LENGTH_SHORT).show()
-                }
-                viewModel.employee.value == null -> {
-                    Toast.makeText(requireContext(), "No Matching User found, please try again.", LENGTH_SHORT).show()
-                }
+            checkLoginCredentials(
+                viewModel.employee.value?.loginName,
+                viewModel.employee.value?.loginPassword
+            )
+        }
+        viewModel.employee.observe(viewLifecycleOwner) { /**no-op**/ }
+    }
+
+    private fun checkLoginCredentials(loginName: String?, loginPass: String?) {
+        val isNameMatch = loginName.contentEquals(viewModel.inputUsername.value)
+        val isPassMatch = loginPass.contentEquals(viewModel.inputPassword.value)
+        when {
+            binding.userName.text.isNullOrEmpty() || binding.password.text.isNullOrEmpty() -> {
+                Toast.makeText(
+                    requireContext(),
+                    "Please enter a UserName and Password",
+                    LENGTH_SHORT
+                ).show()
+            }
+            viewModel.employee.value == null -> {
+                Toast.makeText(
+                    requireContext(),
+                    "No Matching User found, please try again.",
+                    LENGTH_SHORT
+                ).show()
+            }
+            isNameMatch && isPassMatch -> {
+
             }
         }
     }

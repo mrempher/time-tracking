@@ -1,12 +1,14 @@
 package com.example.timetracking.login
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.timetracking.data.entity.Employee
 import com.example.timetracking.data.repository.EmployeeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,26 +18,21 @@ class LoginViewModel @Inject constructor(
     private val employeeRepository: EmployeeRepository
 ) : ViewModel() {
 
-    private var _employee: Flow<Employee?> = MutableStateFlow(null)
-    var employee = _employee.asLiveData()
-
-    private var _employeeList: Flow<List<Employee>> = MutableStateFlow(listOf())
-    var employeeList = _employeeList.asLiveData()
+    private var _employee = MutableLiveData<Employee>()
+    val employee: LiveData<Employee>
+        get() = _employee
 
     val inputUsername = MutableStateFlow("")
     val inputPassword = MutableStateFlow("")
 
-    init {
-        viewModelScope.launch {
-            _employeeList = employeeRepository.getAllEmployees()
-        }
-    }
-
-    fun getEmployeeByUserName() =
-        viewModelScope.launch {
-            _employee = employeeRepository.getEmployeeByUserName(inputUsername.value)
+    fun getEmployeeByUserName() {
+        viewModelScope.launch(Dispatchers.IO) {
+            employeeRepository.getEmployeeByUserName(inputUsername.value).collect {
+                _employee.postValue(it)
+            }
             Log.d(TAG, "getEmployeeByUserName: ${employee.value?.employeeName}")
         }
+    }
 
     fun setInputUserName(name: String) {
         inputUsername.value = name

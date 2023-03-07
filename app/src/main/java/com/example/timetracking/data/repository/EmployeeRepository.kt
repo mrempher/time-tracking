@@ -1,11 +1,14 @@
 package com.example.timetracking.data.repository
 
+import android.util.Log
 import com.example.timetracking.data.dao.EmployeeDao
 import com.example.timetracking.data.entity.Employee
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+
+const val TAG = "EmployeeRepository"
 
 class EmployeeRepository @Inject constructor(
     private val employeeDao: EmployeeDao
@@ -22,8 +25,8 @@ class EmployeeRepository @Inject constructor(
     }
 
     suspend fun getEmployeeByUserName(userName: String): Flow<Employee> {
-        return withContext(Dispatchers.IO) {
-            employeeDao.getEmployeeByUserName(userName)
+        return flow {
+            emit(employeeDao.getEmployeeByUserName(userName))
         }
     }
 }
