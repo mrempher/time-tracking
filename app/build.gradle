@@ -60,6 +60,8 @@ dependencies {
     def lifecycle = "2.5.1"
     def core = "1.9.0"
     def appcompat = "1.6.1"
+    def hilt = "2.44"
+    def material = "1.8.0"
 
     //room
     implementation "androidx.room:room-runtime:$room_version"
@@ -67,19 +69,33 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     //hilt
-    implementation "com.google.dagger:hilt-android:2.44"
-    kapt "com.google.dagger:hilt-compiler:2.44"
+    implementation "com.google.dagger:hilt-android:$hilt"
+    kapt "com.google.dagger:hilt-compiler:$hilt"
 
-    implementation "androidx.core:core-ktx:$core"
-    implementation "androidx.appcompat:appcompat:$appcompat"
-    implementation 'com.google.android.material:material:1.8.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    //navigation
+    implementation "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    //material
+    implementation "com.google.android.material:material:$material"
+
+    //data_binding
+    implementation 'androidx.databinding:databinding-runtime:7.4.2'
+
+    //lifecycle
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
-    implementation 'androidx.databinding:databinding-runtime:7.4.2'
+
+    ///appCompat
+    implementation "androidx.appcompat:appcompat:$appcompat"
+
+    //androidX
+    implementation "androidx.core:core-ktx:$core"
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    //testing
     testImplementation 'junit:junit:4.13.2'
     testImplementation "androidx.room:room-testing:$room_version"
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
