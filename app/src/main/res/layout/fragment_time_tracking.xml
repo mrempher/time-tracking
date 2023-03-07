@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="com.example.timetracking.timekeeping.TimeTrackingViewModel" />
@@ -51,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40pt"
                 android:layout_marginEnd="40pt"
+                android:layout_marginBottom="10dp"
                 android:enabled="false"
                 android:hint="End Time"
                 app:layout_constraintBottom_toTopOf="@id/time_fab"
@@ -69,8 +71,8 @@
                 android:id="@+id/time_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:layout_marginBottom="50dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="25dp"
                 android:contentDescription="time fab"
                 android:text="Create new time event"
                 app:icon="@drawable/ic_add"
@@ -81,7 +83,7 @@
                 android:id="@+id/end_time_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="16dp"
                 android:contentDescription="@string/app_name"
                 android:visibility="gone"
                 app:fabSize="normal"
@@ -104,7 +106,7 @@
                 android:id="@+id/start_time_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="16dp"
                 android:contentDescription="@string/app_name"
                 android:visibility="gone"
                 app:fabSize="normal"
@@ -123,10 +125,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/start_time_fab"
                 app:layout_constraintEnd_toStartOf="@+id/start_time_fab"
                 app:layout_constraintTop_toTopOf="@+id/start_time_fab" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </LinearLayout>
-
-
 </layout>
