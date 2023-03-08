@@ -90,7 +90,7 @@ class TimeTrackingFragment : Fragment() {
 
             timePicker = TimePickerDialog(
                 requireContext(), { view, hourOfDay, minute ->
-                    binding.startTimeText.setText(String.format("%d : %d", hourOfDay, minute))
+                    binding.startTimeText.setText(String.format("%2d:%02d", hourOfDay, minute))
                 },
                 currentTime.get(Calendar.HOUR_OF_DAY),
                 currentTime.get(Calendar.MINUTE),
@@ -113,7 +113,7 @@ class TimeTrackingFragment : Fragment() {
 
             timePicker = TimePickerDialog(
                 requireContext(), { view, hourOfDay, minute ->
-                    binding.endTimeText.setText(String.format("%d : %d", hourOfDay, minute))
+                    binding.endTimeText.setText(String.format("%2d:%02d", hourOfDay, minute))
                 },
                 currentTime.get(Calendar.HOUR_OF_DAY),
                 currentTime.get(Calendar.MINUTE),
