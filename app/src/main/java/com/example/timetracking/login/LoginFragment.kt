@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -31,18 +30,25 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.userName.addTextChangedListener { viewModel.setInputUserName(it.toString()) }
-        binding.password.addTextChangedListener { viewModel.setInputPassword(it.toString()) }
-
         binding.loginButton.setOnClickListener {
-            //TODO add some sort of spinner while checking userData for login
-            viewModel.getEmployeeByUserName()
-            checkLoginCredentials(
-                viewModel.employee.value?.loginName,
-                viewModel.employee.value?.loginPassword
-            )
+            viewModel.setInputUserName(binding.userName.text.toString())
+            viewModel.setInputPassword(binding.password.text.toString())
+            viewModel.getEmployeeByUserName(binding.userName.text.toString())
         }
-        viewModel.employee.observe(viewLifecycleOwner) { /**no-op**/ }
+
+        viewModel.employee.observe(viewLifecycleOwner) { }
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            //TODO handle spinner for Loading
+        }
+        viewModel.isDone.observe(viewLifecycleOwner) {
+            //TODO not loving this approach
+            if (it == true) {
+                checkLoginCredentials(
+                    viewModel.employee.value?.loginName,
+                    viewModel.employee.value?.loginPassword
+                )
+            }
+        }
     }
 
     private fun checkLoginCredentials(loginName: String?, loginPass: String?) {
@@ -80,9 +86,12 @@ class LoginFragment : Fragment() {
             isNameMatch && isPassMatch -> {
                 binding.userName.text?.clear()
                 binding.password.text?.clear()
+                viewModel.setInputUserName("")
+                viewModel.setInputPassword("")
                 val action =
                     LoginFragmentDirections
                         .actionLoginFragmentToTimeTrackingFragment(viewModel.employee.value)
+                viewModel.clearEmployeeData()
                 findNavController().navigate(action)
             }
         }
