@@ -4,10 +4,12 @@ This is an example app for Time Tracking, using Kotlin, Room, Hilt, Coroutines, 
 
 Please use the following Users to Login:
 (currently using pre-populated data for users)
-[user]        [password]
-admin       :  password
-testUserOne :  password
-testUserTwo :  password
+
+|    User     | Password |
+|:-----------:|:--------:|
+|    admin    | password |
+| testUserOne | password |
+| testUserTwo | password |
 
 ## Installation
 Clone this repository and import into **Android Studio**
