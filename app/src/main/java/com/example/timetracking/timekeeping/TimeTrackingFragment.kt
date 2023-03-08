@@ -96,11 +96,12 @@ class TimeTrackingFragment : Fragment() {
                 currentTime.get(Calendar.MINUTE),
                 false
             )
+            handleFabVisibility()
             timePicker.show()
         } else {
             val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle(getString(R.string.start_time_title))
-            builder.setMessage(getString(R.string.start_time_message))
+            builder.setTitle(getString(R.string.session_started))
+            builder.setMessage(getString(R.string.session_started_message))
             builder.setPositiveButton(getString(R.string.positive_button)) { dialog, _ -> dialog.dismiss() }
             builder.show()
         }
@@ -119,11 +120,18 @@ class TimeTrackingFragment : Fragment() {
                 currentTime.get(Calendar.MINUTE),
                 false
             )
+            handleFabVisibility()
             timePicker.show()
-        } else {
+        } else if(binding.startTimeText.text.isNullOrEmpty()) {
             val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle(getString(R.string.end_time_title))
-            builder.setMessage(getString(R.string.end_time_message))
+            builder.setTitle(getString(R.string.session_not_started))
+            builder.setMessage(getString(R.string.start_time_not_set))
+            builder.setPositiveButton(getString(R.string.positive_button)) { dialog, _ -> dialog.dismiss() }
+            builder.show()
+        } else if (!binding.endTimeText.text.isNullOrEmpty()) {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle(getString(R.string.session_started))
+            builder.setMessage(getString(R.string.session_end_started_message))
             builder.setPositiveButton(getString(R.string.positive_button)) { dialog, _ -> dialog.dismiss() }
             builder.show()
         }
