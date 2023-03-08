@@ -15,8 +15,6 @@ import com.example.timetracking.databinding.FragmentTimeTrackingBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
-const val TAG = "TimeTrackingFragment"
-
 @AndroidEntryPoint
 class TimeTrackingFragment : Fragment() {
     private lateinit var binding: FragmentTimeTrackingBinding
@@ -101,9 +99,9 @@ class TimeTrackingFragment : Fragment() {
             timePicker.show()
         } else {
             val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Time Session already started")
-            builder.setMessage("The start time has already been set, please finalize or clear sessions")
-            builder.setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            builder.setTitle(getString(R.string.start_time_title))
+            builder.setMessage(getString(R.string.start_time_message))
+            builder.setPositiveButton(getString(R.string.positive_button)) { dialog, _ -> dialog.dismiss() }
             builder.show()
         }
     }
@@ -124,9 +122,9 @@ class TimeTrackingFragment : Fragment() {
             timePicker.show()
         } else {
             val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Time Session already started")
-            builder.setMessage("The start time has not been set, please finalize or clear sessions")
-            builder.setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            builder.setTitle(getString(R.string.end_time_title))
+            builder.setMessage(getString(R.string.end_time_message))
+            builder.setPositiveButton(getString(R.string.positive_button)) { dialog, _ -> dialog.dismiss() }
             builder.show()
         }
     }

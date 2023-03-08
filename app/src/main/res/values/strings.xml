@@ -15,7 +15,19 @@
 
     <!--menu items -->
     <string name="action_logout">Logout</string>
+    <string name="clear_session_text">Clear Session</string>
+    <string name="save_session_text">Save Session</string>
 
-    <!-- nav menu -->
+    <!-- toast Messages -->
+    <string name="username_password_empty">Please enter a UserName and Password.</string>
+    <string name="no_valid_employee_found">No Matching User found, please try again.</string>
+    <string name="password_is_incorrect">Password is incorrect, please try again.</string>
+    <string name="username_is_incorrect">User Name is incorrect, please try again.</string>
 
+    <!-- time picker -->
+    <string name="start_time_title">Time Session already started</string>
+    <string name="start_time_message">The start time has already been set, please finalize or clear session.</string>
+    <string name="end_time_title">Time Session has not been started</string>
+    <string name="end_time_message">The start time has not been set, please enter start time first.</string>
+    <string name="positive_button">OK</string>
 </resources>

@@ -7,10 +7,10 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/action_clear_session"
-        android:title="Clear Session"
+        android:title="@string/clear_session_text"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_save_session"
-        android:title="Save Session"
+        android:title="@string/save_session_text"
         app:showAsAction="never" />
 </menu>

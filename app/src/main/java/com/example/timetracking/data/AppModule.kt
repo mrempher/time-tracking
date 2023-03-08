@@ -33,6 +33,4 @@ object AppModule {
             "app_database"
         ).build()
     }
-
-
 }
