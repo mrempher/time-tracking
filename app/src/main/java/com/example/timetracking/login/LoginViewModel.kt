@@ -1,6 +1,5 @@
 package com.example.timetracking.login
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -30,7 +29,6 @@ class LoginViewModel @Inject constructor(
             employeeRepository.getEmployeeByUserName(inputUsername.value).collect {
                 _employee.postValue(it)
             }
-            Log.d(TAG, "getEmployeeByUserName: ${employee.value?.employeeName}")
         }
     }
 
