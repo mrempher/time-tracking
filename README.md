@@ -2,6 +2,13 @@
 
 This is an example app for Time Tracking, using Kotlin, Room, Hilt, Coroutines, LiveData, Material3
 
+Please use the following Users to Login:
+(currently using pre-populated data for users)
+[user]        [password]
+admin       :  password
+testUserOne :  password
+testUserTwo :  password
+
 ## Installation
 Clone this repository and import into **Android Studio**
 ```bash
@@ -11,13 +18,3 @@ git clone git@github.com:mrempher/time-tracking.git
 ## Maintainers
 This project is mantained by:
 * [Michael Rempher](https://github.com/mrempher)
-
-
-## Contributing
-
-1. Fork it
-2. Create your feature branch (git checkout -b my-new-feature)
-3. Commit your changes (git commit -m 'Add some feature')
-4. Run the linter (ruby lint.rb').
-5. Push your branch (git push origin my-new-feature)
-6. Create a new Pull Request
